@@ -2,19 +2,19 @@ import { openDB } from "idb";
 
 const initdb = async () =>
   // Create new database (using version 1 of database).
-  openDB("quillcache", 1, {
+  openDB("content", 1, {
     // Add database schema if not already inititalized.
     upgrade(db) {
-      if (db.objectStoreNames.contains("quillcache")) {
-        console.log("quillcache database already exists");
+      if (db.objectStoreNames.contains("content")) {
+        console.log("Content database already exists");
         return;
       }
       // Create new object store for data and give it key name "id" which increments automatically.
-      db.createObjectStore("quillcache", {
+      db.createObjectStore("content", {
         keyPath: "id",
         autoIncrement: true,
       });
-      console.log("quillcache database created");
+      console.log("Content database created");
     },
   });
 
@@ -23,13 +23,13 @@ export const putDb = async (data) => {
   console.log("PUT to database.");
 
   // Connect with database and version to use.
-  const quillcacheDB = await openDB("quillcache", 1);
+  const contentDB = await openDB("content", 1);
 
-  // Create new transaction and specify database and data privileges.
-  const tx = quillcacheDB.transaction("quillcache", "readwrite");
+  // Create new transaction and specify database and data privileges (read and write).
+  const tx = contentDB.transaction("content", "readwrite");
 
   // Open desired object store.
-  const store = tx.objectStore("quillcache");
+  const store = tx.objectStore("content");
 
   // Use .put() method to create structured clone of value.
   const request = store.put({ data: data });
@@ -44,15 +44,15 @@ export const getDb = async () => {
   console.log("GET from database.");
 
   // Connect with database and version to use.
-  const quillcacheDB = await openDB("quillcache", 1);
+  const contentDB = await openDB("content", 1);
 
-  // Create new transaction and specify database and data privileges.
-  const tx = quillcacheDB.transaction("quillcache", "readonly");
+  // Create new transaction and specify database and data privileges (read only).
+  const tx = contentDB.transaction("content", "readonly");
 
   // Open desired object store.
-  const store = tx.objectStore("quillcache");
+  const store = tx.objectStore("content");
 
-  // Use .put() method to create structured clone of value.
+  // Use .getAll() method to get saved data.
   const request = store.getAll();
 
   // Confirmation of request.
