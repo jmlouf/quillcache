@@ -1,5 +1,5 @@
 {
-    "name": "quillcache",
+    "name": "Quillcache",
     "scripts": {
       "dev": "webpack-dev-server",
       "build": "webpack --mode production",
