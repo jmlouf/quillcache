@@ -2,7 +2,7 @@
 import { getDb, putDb } from "./database";
 import { header } from "./header";
 
-export default class {
+export default class Editor {
   constructor() {
     const localData = localStorage.getItem("content");
 
@@ -11,7 +11,7 @@ export default class {
       throw new Error("CodeMirror is not loaded");
     }
 
-    this.quillcache = CodeMirror(document.querySelector("#main"), {
+    this.editor = CodeMirror(document.querySelector("#main"), {
       value: "",
       mode: "javascript",
       theme: "monokai",
@@ -26,15 +26,15 @@ export default class {
     // Fall back to localStorage if nothing is stored in indexeddb, and if neither is available, set the value to header.
     getDb().then((data) => {
       console.info("Loaded data from IndexedDB, injecting into QuillCache");
-      this.quillcache.setValue(data || localData || header);
+      this.editor.setValue(data || localData || header);
     });
 
-    this.quillcache.on("change", () => {
-      localStorage.setItem("content", this.quillcache.getValue());
+    this.editor.on("change", () => {
+      localStorage.setItem("content", this.editor.getValue());
     });
 
     // Save the content of QuillCache when QuillCache itself loses focus.
-    this.quillcache.on("blur", () => {
+    this.editor.on("blur", () => {
       console.log("QuillCache has lost focus.");
       putDb(localStorage.getItem("content"));
     });
