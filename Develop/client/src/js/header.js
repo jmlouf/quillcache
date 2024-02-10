@@ -1,6 +1,6 @@
 const header = `
 /*
-just another text editor
+Cache out ideas
 */                          
 `;
 
