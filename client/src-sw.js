@@ -44,7 +44,7 @@ registerRoute(
   })
 );
 
-self.addEventListener("fetch", function (event) {
+self.addEventListener("fetch", (event) => {
   // This fetch function is required for the SW to be detected and is intentionally empty
   // For a more robust, real-world SW example see: https://developers.google.com/web/fundamentals/primers/service-workers
 });

@@ -1,37 +1,60 @@
 const butInstall = document.getElementById("buttonInstall");
 
-window.addEventListener("beforeinstallprompt", (event) => {
-  event.preventDefault();
+// Check download status.
+if (localStorage.getItem("installed")) {
+  hideInstallButton();
+}
 
-  // Store the triggered events
+function hideInstallButton() {
+  butInstall.style.display = "none";
+}
+
+window.addEventListener("beforeinstallprompt", async (event) => {
   window.deferredPrompt = event;
+  const promptEvent = window.deferredPrompt;
 
-  // Remove the hidden class from the button.
-  butInstall.classList.toggle("hidden", false);
+  console.log(promptEvent);
+
+  // Show install button.
+  butInstall.style.display = "visible";
+
+  if ("BeforeInstallPromptEvent" in window) {
+    showResult("⏳ BeforeInstallPromptEvent supported but not fired yet");
+  } else {
+    showResult("❌ BeforeInstallPromptEvent NOT supported");
+  }
 
   butInstall.addEventListener("click", async (event) => {
-    console.log("clicked");
+    event.preventDefault();
 
-    const promptEvent = window.deferredPrompt;
+    if (promptEvent) {
+      promptEvent.prompt();
+      const { outcome } = await promptEvent.userChoice;
 
-    if (!promptEvent) {
-      console.log("no prompt event");
-      return;
+      promptEvent.userChoice.then(() => {
+        // User choice.
+        if (outcome === "accepted") {
+          showResult("😀 User accepted the install prompt.", true);
+
+          // Save installed flag.
+          localStorage.setItem("installed", true);
+
+          // Hide download button.
+          hideInstallButton();
+        } else if (outcome === "dismissed") {
+          showResult("😟 User dismissed the install prompt.");
+        }
+      });
+
+      window.deferredPrompt = null;
     }
-
-    console.log("prompt event successful");
-
-    // Show prompt
-    promptEvent.prompt();
-
-    // Reset the deferred prompt variable, it can only be used once.
-    window.deferredPrompt = null;
-
-    butInstall.classList.toggle("hidden", true);
   });
 });
 
 window.addEventListener("appinstalled", (event) => {
-  // Clear prompt
-  window.deferredPrompt = null;
+  showResult("✅ AppInstalled fired", true);
 });
+
+function showResult(text) {
+  console.log(text);
+}
