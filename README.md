@@ -12,6 +12,7 @@ QuillCache is a web-based text editor that allows users to easily write and edit
   - [Table of Contents](#table-of-contents)
   - [Usage](#usage)
   - [Installation (for users)](#installation-for-users)
+  - [Deployment Link](#deployment-link)
   - [Credits](#credits)
   - [Questions](#questions)
   - [License](#license)
@@ -35,6 +36,10 @@ The QuillCache text editor can be installed for regular use:
 2. This will trigger a browser install prompt 
 3. Accept the prompt to install QuillCache to your desktop
 4. The app can then launch independently with offline persistence
+
+## Deployment Link
+
+[QuillCache Deployment Link](https://fast-inlet-34483-835bf7528967.herokuapp.com/)
 
 ## Credits
 
