@@ -28,6 +28,10 @@ To use QuillCache:
 5. The menu bar offers additional options like changing font size or enabling word wrap  
 6. Documents persist conveniently across writing sessions so you can close and reopen to the same state at any time
 
+The following screenshots show the web application's appearance and functionality:
+
+![Usage Screenshot](./assets/images/mockup-1.png)
+
 ## Installation (for users)
 
 The QuillCache text editor can be installed for regular use:  
